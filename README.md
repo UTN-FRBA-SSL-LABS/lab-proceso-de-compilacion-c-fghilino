@@ -350,7 +350,7 @@ LINEAS_I=1988
 
 ¿Por qué ese número es tan mayor que las 94 líneas de `programa.c`?
 
-> **R:**
+> **R:es mayor el número ya que al poner #include se pega en el archivo todas las bibliotecas invocadas más el codigo original**
 
 ---
 
@@ -393,7 +393,7 @@ COMENTARIOS_EN_I=NO
 
 ¿Por qué ocurre eso?
 
-> **R:**
+> **R:Ocurre porque al pasar el código del archivo original al archivo programa.i los comentarios no se incluyen**
 
 ---
 
@@ -422,7 +422,8 @@ Nótese que `CUADRADO(5)` se expande a `((5) * (5))`, con los paréntesis extra 
 
 **P3.** Ejecutá `grep -n "CUADRADO" programa.i` y copiá la salida completa.
 
-> **R:**
+> **R:1957     printf("CUADRADO(%d)      = %d\n", 5, ((5) * (5)));
+**
 
 ¿El nombre `CUADRADO` aparece tal cual en `programa.i`, o fue reemplazado
 por otra cosa? Respondé SI o NO:
@@ -434,7 +435,7 @@ CUADRADO_EN_I=NO
 
 **P4.** Ejecutá `grep -n '"1\.0"' programa.i` y copiá la línea encontrada.
 
-> **R:**
+> **R:1948     printf("=== Laboratorio de Compilacion en C (v%s) ===\n\n", "1.0");**
 
 ¿Cuál era el nombre de la macro en `programa.c` que fue reemplazada por `"1.0"`?
 
@@ -504,7 +505,7 @@ grep -n "stdio.h" programa.i | head -5
 
 ¿Qué información comunican esas líneas `# N "archivo"`? ¿De qué archivo proviene el bloque que contiene la declaración de `printf`?
 
-> **R:**
+> **R:Esas lineas comunican al resto de las etapas de compilación el origen real de cada bloque de código. Proviene del archivo stdio.h**
 
 ---
 
@@ -674,12 +675,15 @@ AREA_EN_S=LLAMADA
 **P8.** Encontrá en `programa.s` la etiqueta `sumar:` o `_sumar:` y copiá
 las primeras 4 líneas de instrucciones que le siguen.
 
-> **R:**
+> **R:.LFB6:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp**
 
 Explicá en términos generales qué hacen esas instrucciones
 (usá los comentarios del laboratorio como guía):
 
-> **R:**
+> **R:Estas líneas se ocupan de la seguridad, le dan información al depurador y guardan el estado de la memoria así la función puede trabajar sin romper nada de lo que venía haciendo el programa antes**
 
 ---
 
@@ -692,7 +696,8 @@ grep "llamadas" programa.s
 
 **P9.** Ejecutá `grep "llamadas" programa.s` y copiá la salida.
 
-> **R:**
+> **R:	.string	"Llamadas a sumar(): %d\n"
+**
 
 ¿Aparece la variable `llamadas` en el ensamblador?
 Respondé SI o NO:
@@ -802,7 +807,12 @@ Salida esperada (simplificada):
 
 **P10.** Ejecutá `nm programa.o` y copiá la salida completa.
 
-> **R:**
+> **R:                 U area_circulo
+0000000000000000 D llamadas
+0000000000000000 T main
+                 U printf
+000000000000003b T sumar
+                 U factorial**
 
 ¿Con qué letra aparece `area_circulo` en esa tabla?
 Escribí solo la letra (una mayúscula):
@@ -828,7 +838,7 @@ nm matematica.o
 **P11.** ¿Por qué `area_circulo` tiene ese tipo en `programa.o`
 pero tipo `T` en `matematica.o`?
 
-> **R:**
+> **R:ya que en programa.o conoce la función pero no tiene el codigo, y en cambio en el archivo matematica.o tiene la función definida**
 
 ¿Qué etapa del proceso de compilación resuelve esa diferencia?
 Respondé con una palabra: PREPROCESAMIENTO, COMPILACION, ENSAMBLADO o ENLAZADO:
@@ -853,7 +863,7 @@ Un `.o` no es ejecutable por dos razones:
 
 **P12.** Intentá ejecutar `./programa.o` directamente. ¿Qué mensaje aparece?
 
-> **R:**
+> **R:bash: ./programa.o: Permission denied**
 
 ¿Se puede ejecutar un archivo `.o` directamente?
 Respondé SI o NO:
@@ -948,7 +958,7 @@ nm programa | grep area_circulo
 **P13.** Enlazá con `gcc programa.o matematica.o -o programa`.
 Ejecutá `nm programa | grep "area_circulo"` y copiá la salida.
 
-> **R:**
+> **R:0000000000401126 T area_circulo**
 
 ¿Con qué letra aparece ahora `area_circulo` en el ejecutable final?
 Escribí solo la letra:
@@ -1011,14 +1021,14 @@ FACTORIAL_5=120
 como `CUADRADO(x)` y una **función real** como `sumar(a, b)`.
 ¿En qué etapa "desaparece" cada una? ¿Cuál tiene verificación de tipos?
 
-> **R:**
+> **R:La diferencia entre una macro función y una función real es que la función real hace que el procesador deba ejecutar el codigo escrito en otra linea y luego volver al paso para avanzar. La macrofunción desaparece en la etapa 1 de preprocesamiento y la funcion real en la etapa 2 de compilación. La función real tiene verificacion de tipos en la fase de analisis semantico**
 
 ---
 
 **P17.** ¿Qué diferencia hay entre un símbolo de tipo `T` y uno de tipo `D`
 en la salida de `nm`? ¿En qué sección del archivo objeto vive cada uno?
 
-> **R:**
+> **R:La diferencia entre un simbolo T y D es que en los T hay instrucciones para el procesador, y en cambio la D tiene una variable con valor inicial. La T vive en la .text y la D en la .data**
 
 ---
 
