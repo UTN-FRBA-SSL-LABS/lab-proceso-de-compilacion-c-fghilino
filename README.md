@@ -856,7 +856,7 @@ Un `.o` no es ejecutable por dos razones:
 > **R:**
 
 ¿Se puede ejecutar un archivo `.o` directamente?
-Respondé SI o NO:
+Respondé SI o NO:NO
 
 <!-- Completá con SI o NO: -->
 EJECUTABLE_O=
@@ -999,7 +999,7 @@ SIMBOLOS_U_FINAL=
 ¿Qué valor da `factorial(5)`? Escribí solo el número:
 
 <!-- Completá con el número exacto: -->
-FACTORIAL_5=
+FACTORIAL_5=120
 
 ---
 
